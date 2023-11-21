@@ -35,7 +35,7 @@ namespace SeProject1
         Pen myPen = new Pen(Color.Black, 5);
         Boolean mouseDown = false;
         //Parser myParser = new Parser();
-        public List<string> finalCommands = new List<string>(); // Will hold a list of only the correct commands and coordinates that will be executed
+        public List<string> finalCommands = new List<string>();// Will hold a list of only the correct commands and coordinates that will be executed
 
 
         runCommands drawing;  //Creates an object of the runCommands class
@@ -80,7 +80,7 @@ namespace SeProject1
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            
             StreamWriter stream = new StreamWriter(textFile);
             stream.Write(textBox1.Text); //Writes all the commands entered in the textbox to commands.txt
             stream.Close();
@@ -88,9 +88,12 @@ namespace SeProject1
             textparser txt = new textparser();
 
             txt.Savetolist();
-            for(int i = 0; i < finalCommands.Count; i++)
+            ParseProgram(txt.command, txt.command);
+            int textCommand = txt.command.Count;
+            Console.WriteLine(textCommand + "textcommand");
+            for (int i = 0; i < finalCommands.Count; i++)
             {
-                Console.WriteLine(finalCommands[i] +" is this the final answer?");
+                Console.WriteLine(finalCommands[i] + " is this the final answer?");
                 if (finalCommands[i] == "drawto")
                 {
                     drawing.Draw(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
@@ -99,9 +102,10 @@ namespace SeProject1
                 {
                     Cursor.Position = new Point(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
                 }
+                
                 Refresh();
             }
-            
+
 
 
 
@@ -136,6 +140,8 @@ namespace SeProject1
 
         public void ParseProgram(IEnumerable<string> enumerator, List<string> command)
         {
+
+            
 
             Console.WriteLine("Enter the parser");
             List<string> coor = new List<string>();
@@ -173,9 +179,9 @@ namespace SeProject1
 
             //    }
             //}
-            for (int i = 0; i < command.Count(); i++)
+            for (int i = 0; i < command.Count(); i = i + 3)
             {
-
+                Console.WriteLine("command[i] = " + command[i]);
                 //Console.WriteLine((string)enumerator1.Current);
                 switch (command[i])
                 {

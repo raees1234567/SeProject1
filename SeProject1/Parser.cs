@@ -80,8 +80,9 @@ namespace SeProject1
                 
             }
             int size = command.Count;
-            homeClass.ParseProgram(command, command);
-           
+            //homeClass.ParseProgram(command, command);
+            
+            Console.WriteLine(homeClass.finalCommands.Count + "count of final commands");
         }
     }
 
