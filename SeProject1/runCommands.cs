@@ -27,7 +27,7 @@ namespace SeProject1
         }
         public void Draw(int toX, int toY)
         {
-            Console.WriteLine("Enter Bitmap");
+            
             
             g.DrawLine(p, posX, posY, toX, toY);// Draws a line onto myBitmap. toX and toY are the start and end position of the line and posX and posY are the current coordinates of the mouse
             

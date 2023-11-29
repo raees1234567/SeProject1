@@ -30,8 +30,6 @@
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textCommand = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -58,27 +56,6 @@
             this.textCommand.TabIndex = 3;
             this.textCommand.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             this.textCommand.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textCommand_KeyDown);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.button1.Location = new System.Drawing.Point(61, 550);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(107, 39);
-            this.button1.TabIndex = 4;
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.button2.Location = new System.Drawing.Point(320, 547);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(122, 42);
-            this.button2.TabIndex = 5;
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            this.button2.Paint += new System.Windows.Forms.PaintEventHandler(this.button2_Paint);
             // 
             // elementHost1
             // 
@@ -129,8 +106,6 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.textCommand);
             this.Controls.Add(this.textBox1);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
@@ -152,8 +127,6 @@
 
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textCommand;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;

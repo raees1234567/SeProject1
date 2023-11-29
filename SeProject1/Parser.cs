@@ -21,47 +21,25 @@ using System.Xml.Schema;
 namespace SeProject1
 {
     
-
     internal class Parser
     {
-
-        
-        
 
     }
 
 
     public class textparser
     {
-        
-        Graphics draw;
-        public Point point11;
-        public Point point22;
         public string[] commands;
         public List<string> command = new List<string>();
-        
-        public void Drawingline(PointF pointx, PointF pointy)
-        {
-
-            
-            
-        }
-
-
-        
-        
+        public string[] commandsFile;
+  
         /* Savetolist runs through the text file and stores the output in a list which is converted to Ienumerable*/
         public void Savetolist()
         {
-            
-            
-           
-            int count = 0;
+
             string textFile = "C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt";
-           
-            List<string> list = new List<string>();
-            
-            string[] commandsFile = File.ReadAllLines(textFile);
+
+            commandsFile = File.ReadAllLines(textFile);
             
             Form1 homeClass = new Form1();
             foreach (string element in commandsFile)
@@ -73,16 +51,7 @@ namespace SeProject1
                     Console.WriteLine(individual);
                 }
                 
-                
-
-
-                
-                
             }
-            int size = command.Count;
-            //homeClass.ParseProgram(command, command);
-            
-            Console.WriteLine(homeClass.finalCommands.Count + "count of final commands");
         }
     }
 
