@@ -9,13 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommandLine;
-using System.Drawing;
 using System.Windows.Controls;
 using System.IO;
 using System.Windows.Shapes;
-using static System.Windows.Forms.LinkLabel;
+//using static System.Windows.Forms.LinkLabel;
 using System.Security.Cryptography;
-using static System.Net.Mime.MediaTypeNames;
+//using static System.Net.Mime.MediaTypeNames;
 using System.Management.Instrumentation;
 using System.Windows.Media.Animation;
 using System.Runtime.InteropServices;
@@ -25,18 +24,27 @@ using System.Windows.Documents;
 
 namespace SeProject1
 {
-
+    
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Store File path of the text file commands.txt . This is where the commands entered by the user will be saved.
+        /// A bitmap is created to draw on.
+        /// a list of the correct commands is created.
+        /// An object of the runCommands class is created
+        /// </summary>
         string textFile = "C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"; // Stores the file path that the commands are saved in
         Bitmap myBitmap = new Bitmap(650, 480); // creation of a bitmap to be stored anywhere in Form1.cs
-        Pen myPen = new Pen(Color.Black, 5);
+        
         Boolean mouseDown = false;
         public List<string> finalCommands = new List<string>();// Will hold a list of only the correct commands and coordinates that will be executed
 
 
         runCommands drawing;  //Creates an object of the runCommands class
-
+        /// <summary>
+        /// data is entered into runcommands
+        /// </summary>
+        /// <parameter name="g">Allows the bitmap to be drawn on in runCommands</parameter>
         public Form1()
         {
             InitializeComponent();
@@ -57,7 +65,13 @@ namespace SeProject1
         {
             mouseDown = false;
         }
-
+        /// <summary>
+        /// When the button on the form is pressed the text from the multi-line
+        /// text box is entered into textFile and then Savetolist is ran,
+        /// then ParseProgram is ran, then run is ran.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button3_Click(object sender, EventArgs e)
         {
             
@@ -67,30 +81,19 @@ namespace SeProject1
 
             textparser txt = new textparser();
 
-            txt.Savetolist();
-            ParseProgram(txt.command, txt.command);
+            txt.Savetolist(File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"));
+            ParseProgram(txt.command);
 
             run();
-            //for (int i = 0; i < finalCommands.Count; i++)
-            //{
-                
-            //    if (finalCommands[i] == "drawto")
-            //    {
-            //        drawing.Draw(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
-            //    }
-            //    else if (finalCommands[i] == "moveto")
-            //    {
-            //        Cursor.Position = new Point(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
-            //    }
-                
-                
-            //}
-            //Refresh();
-            //textBox1.Text = "";
-            //File.WriteAllText(textFile, String.Empty);
+            
 
 
         }
+        /// <summary>
+        /// The for loop runs through the list containing only the necessary commands. If an element of
+        /// finalCommands == drawto then the draw method is ran, if moveto is the element then the cursor is moved.
+        /// Refresh makes the form redraw itself to include the update version of the bitmap which is displayed on a picturebox.
+        /// </summary>
         public void run()
         {
             for (int i = 0; i < finalCommands.Count; i++)
@@ -104,7 +107,26 @@ namespace SeProject1
                 {
                     Cursor.Position = new Point(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
                 }
-
+                else if (finalCommands[i] == "rectangle")
+                {
+                    drawing.rectangle(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
+                }
+                else if (finalCommands[i] == "circle")
+                {
+                    drawing.circle(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
+                }
+                else if (finalCommands[i] == "triangle")
+                {
+                    drawing.triangle(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
+                }
+                else if (finalCommands[i] == "pen")
+                {
+                    drawing.setPenColour(Color.FromName(finalCommands[i + 1]));
+                }
+                else if (finalCommands[i] == "fill")
+                {
+                    drawing.colorFill(finalCommands[i + 1], finalCommands[i + 2]);
+                }
 
             }
             Refresh();
@@ -115,7 +137,11 @@ namespace SeProject1
         {
 
         }
-
+        /// <summary>
+        /// PictureBox1_Paint draws the bitmap onto the picture box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -134,30 +160,67 @@ namespace SeProject1
         }
 
 
-
-        public void ParseProgram(IEnumerable<string> enumerator, List<string> command)
+        /// <summary>
+        /// ParseProgram loops through the list command and only enters the important elements into finalCommands
+        /// </summary>
+        /// <param name="command"></param>
+        public void ParseProgram(List<string> command)
         {
 
 
-            List<string> coor = new List<string>();
-            command.GetEnumerator();
-            IEnumerator enumerator1 = enumerator.GetEnumerator();
-            
             for (int i = 0; i < command.Count(); i = i + 3)
             {
-                
-               
+
+
                 switch (command[i])
                 {
                     case "moveto":
-                       
+
                         finalCommands.Add(command[i]);
-                        
                         finalCommands.Add(command[i + 1]);
                         finalCommands.Add(command[i + 2]);
-                        
+
                         break;
                     case "drawto":
+
+                        finalCommands.Add(command[i]);
+                        finalCommands.Add(command[i + 1]);
+                        finalCommands.Add(command[i + 2]);
+
+
+                        break;
+                    case "rectangle":
+
+                        finalCommands.Add(command[i]);
+                        finalCommands.Add(command[i + 1]);
+                        finalCommands.Add(command[i + 2]);
+
+
+                        break;
+                    case "circle":
+
+                        finalCommands.Add(command[i]);
+                        finalCommands.Add(command[i + 1]);
+                        finalCommands.Add(command[i + 2]);
+
+
+                        break;
+                    case "triangle":
+
+                        finalCommands.Add(command[i]);
+                        finalCommands.Add(command[i + 1]);
+                        finalCommands.Add(command[i + 2]);
+
+
+                        break;
+                    case "pen":
+
+                        finalCommands.Add(command[i]);
+                        finalCommands.Add(command[i + 1]);
+
+
+                        break;
+                    case "fill":
 
                         finalCommands.Add(command[i]);
                         finalCommands.Add(command[i + 1]);
@@ -171,10 +234,16 @@ namespace SeProject1
 
                 }
             }
-            
+
         }
 
-      
+
+
+
+
+
+
+
 
 
 
@@ -215,7 +284,12 @@ namespace SeProject1
         {
 
         }
-
+        /// <summary>
+        /// when the cursor is in the single line command line and the enter key is presses then 
+        /// everything inside the if statement is run
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textCommand_KeyDown(object sender, KeyEventArgs e)
         {
             textparser txt = new textparser();
@@ -239,9 +313,26 @@ namespace SeProject1
                     stream.Close();
 
                     
-                    txt.Savetolist();
-                    ParseProgram(txt.command, txt.command);
+                    txt.Savetolist(File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"));
+                    
+                    ParseProgram(txt.command);
                     run();
+                }
+                else if (paintCommandData[0].ToLower() == "rectangle")
+                {
+                    drawing.rectangle(int.Parse(paintCommandData[1]), int.Parse(paintCommandData[2]));
+                }
+                else if (paintCommandData[0].ToLower() == "circle")
+                {
+                    drawing.circle(int.Parse(paintCommandData[1]), int.Parse(paintCommandData[2]));
+                }
+                else if (paintCommandData[0].ToLower() == "triangle")
+                {
+                    drawing.triangle(int.Parse(paintCommandData[1]), int.Parse(paintCommandData[2]));
+                }
+                else if (paintCommandData[0].ToLower() == "pen")
+                {
+                    drawing.setPenColour(Color.FromName(paintCommandData[1]));
                 }
 
                 textCommand.Text = "";

@@ -14,14 +14,21 @@ namespace SeProject1Test
         {
 
             //Arrange
-            Form1 form = new Form1();
+            
             textparser parser = new textparser();
-            parser.Savetolist();
-            foreach(string individual in parser.commandsFile)
+           
+            parser.Savetolist(File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"));
+           
+            List<string> individual = new List<string>();
+            foreach(string b in File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt")) 
             {
-                Assert.AreEqual(parser.command, individual);
+               
+                individual.Add(b);
+                
             }
-          
+
+            //foreach (string individual in parser.commandsFile)
+            Assert.AreEqual(parser.command, individual);
             
             
             

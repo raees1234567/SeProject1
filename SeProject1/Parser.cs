@@ -16,7 +16,6 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Xml.Schema;
 
 
-//using System.CommandLine.dll;
 
 namespace SeProject1
 {
@@ -26,21 +25,24 @@ namespace SeProject1
 
     }
 
-
+    
     public class textparser
     {
-        public string[] commands;
+        
         public List<string> command = new List<string>();
         public string[] commandsFile;
   
-        /* Savetolist runs through the text file and stores the output in a list which is converted to Ienumerable*/
-        public void Savetolist()
+        
+        /// <summary>
+        /// Savetolist runs through the text file and stores the output in a list called command
+        /// </summary>
+        public void Savetolist(string[] commandsFile)
         {
 
             string textFile = "C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt";
 
-            commandsFile = File.ReadAllLines(textFile);
-            
+            //commandsFile = File.ReadAllLines(textFile);
+
             Form1 homeClass = new Form1();
             foreach (string element in commandsFile)
             {
@@ -52,6 +54,7 @@ namespace SeProject1
                 }
                 
             }
+            
         }
     }
 
