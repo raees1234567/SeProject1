@@ -1,0 +1,2 @@
+drawto 0 100
+triangle 0 100

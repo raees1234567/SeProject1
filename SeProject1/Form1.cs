@@ -41,6 +41,7 @@ namespace SeProject1
 
 
         runCommands drawing;  //Creates an object of the runCommands class
+
         /// <summary>
         /// data is entered into runcommands
         /// </summary>
@@ -75,18 +76,32 @@ namespace SeProject1
         private void button3_Click(object sender, EventArgs e)
         {
             
-            StreamWriter stream = new StreamWriter(textFile);
-            stream.Write(textBox1.Text); //Writes all the commands entered in the textbox to commands.txt
-            stream.Close();
+            
+            WriteToFile(textBox1.Text);// save the data to a text file
+            textparser txt = new textparser();//create object of textparser class which is inside Parser.cs
 
-            textparser txt = new textparser();
+            txt.Savetolist(File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"));//save the commands from the file into a list called command
+            ParseProgram(txt.command);// Look through the saved commands and enter only the needed commands into a second list called finalCommands
 
-            txt.Savetolist(File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"));
-            ParseProgram(txt.command);
-
-            run();
+            run();//loop through finalCommands and call the methods to run only the needed commands
             
 
+
+        }
+
+        public void WriteToFile(string textForFile)
+        {
+            
+            Console.WriteLine(textForFile);
+            string[] textFileData = textForFile.Split(' ');
+            
+            StreamWriter stream = new StreamWriter(textFile);
+            for(int i = 0;i < textFileData.Length; i++)
+            {
+                stream.Write(textFileData[i]);
+            }
+            
+            stream.Close();
 
         }
         /// <summary>
@@ -105,7 +120,7 @@ namespace SeProject1
                 }
                 else if (finalCommands[i] == "moveto")
                 {
-                    Cursor.Position = new Point(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
+                    drawing.move(int.Parse(finalCommands[i + 1]), int.Parse(finalCommands[i + 2]));
                 }
                 else if (finalCommands[i] == "rectangle")
                 {
@@ -127,6 +142,12 @@ namespace SeProject1
                 {
                     drawing.colorFill(finalCommands[i + 1], finalCommands[i + 2]);
                 }
+                else if (finalCommands[i] == "clear")
+                {
+                    drawing.clear();
+                }
+
+
 
             }
             Refresh();
@@ -167,72 +188,106 @@ namespace SeProject1
         public void ParseProgram(List<string> command)
         {
 
-
-            for (int i = 0; i < command.Count(); i = i + 3)
+            bool error = false;
+            for (int i = 0; i < command.Count(); i = i + 0)
             {
-
-
-                switch (command[i])
+                if(error == false)
                 {
-                    case "moveto":
+                    try
+                    {
+                        if (command[i] != "clear")
+                        {
+                            int param1 = Convert.ToInt32(command[i + 1]);
+                            int param2 = Convert.ToInt32(command[i + 2]);
+                        }
+                        
 
-                        finalCommands.Add(command[i]);
-                        finalCommands.Add(command[i + 1]);
-                        finalCommands.Add(command[i + 2]);
+                        switch (command[i])
+                        {
+                            
+                            case "moveto":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
+                                finalCommands.Add(command[i + 1]);
+                                finalCommands.Add(command[i + 2]);
+                               
+                               
+                                i += 3;
 
-                        break;
-                    case "drawto":
+                                break;
+                            case "drawto":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
+                                
+                                finalCommands.Add(command[i + 1]);
+                                finalCommands.Add(command[i + 2]);
+                                
+                                
 
-                        finalCommands.Add(command[i]);
-                        finalCommands.Add(command[i + 1]);
-                        finalCommands.Add(command[i + 2]);
+                                i += 3;
 
+                                break;
+                            case "rectangle":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
 
-                        break;
-                    case "rectangle":
+                                finalCommands.Add(command[i + 1]);
+                                finalCommands.Add(command[i + 2]);
 
-                        finalCommands.Add(command[i]);
-                        finalCommands.Add(command[i + 1]);
-                        finalCommands.Add(command[i + 2]);
+                                i += 3;
 
+                                break;
+                            case "circle":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
+                                finalCommands.Add(command[i + 1]);
+                                finalCommands.Add(command[i + 2]);
+                                i += 3;
 
-                        break;
-                    case "circle":
+                                break;
+                            case "triangle":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
+                                finalCommands.Add(command[i + 1]);
+                                finalCommands.Add(command[i + 2]);
+                                i += 3;
 
-                        finalCommands.Add(command[i]);
-                        finalCommands.Add(command[i + 1]);
-                        finalCommands.Add(command[i + 2]);
+                                break;
+                            case "pen":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
+                                finalCommands.Add(command[i + 1]);
+                                i += 2;
 
+                                break;
+                            case "fill":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
+                                finalCommands.Add(command[i + 1]);
+                                finalCommands.Add(command[i + 2]);
+                                i += 3;
 
-                        break;
-                    case "triangle":
-
-                        finalCommands.Add(command[i]);
-                        finalCommands.Add(command[i + 1]);
-                        finalCommands.Add(command[i + 2]);
-
-
-                        break;
-                    case "pen":
-
-                        finalCommands.Add(command[i]);
-                        finalCommands.Add(command[i + 1]);
-
-
-                        break;
-                    case "fill":
-
-                        finalCommands.Add(command[i]);
-                        finalCommands.Add(command[i + 1]);
-                        finalCommands.Add(command[i + 2]);
-
-
-                        break;
-                    default:
-                        Console.WriteLine("Invalid Command");
-                        break;
-
+                                break;
+                            case "clear":
+                                Console.WriteLine("Command Valid");
+                                finalCommands.Add(command[i]);
+                                i += 1;
+                                break;
+                           
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        error = true;
+                        Console.WriteLine("Input command or parameter was incorrect." + e.ToString());
+                    }
                 }
+                else
+                {
+                    
+                    break;
+                }
+                
             }
 
         }
@@ -304,7 +359,8 @@ namespace SeProject1
                 }
                 else if (paintCommandData[0].ToLower() == "moveto")
                 {
-                    Cursor.Position = new Point(int.Parse(paintCommandData[1]), int.Parse(paintCommandData[2]));
+                    //Cursor.Position = new Point(int.Parse(paintCommandData[1]), int.Parse(paintCommandData[2]));
+                    drawing.move(int.Parse(paintCommandData[1]), int.Parse(paintCommandData[2]));
                 }
                 else if (paintCommandData[0].ToLower() == "run")
                 {
@@ -332,8 +388,14 @@ namespace SeProject1
                 }
                 else if (paintCommandData[0].ToLower() == "pen")
                 {
-                    drawing.setPenColour(Color.FromName(paintCommandData[1]));
+                  drawing.setPenColour(Color.FromName(paintCommandData[1]));
                 }
+                else if (paintCommandData[0].ToLower() == "clear")
+                {
+                    drawing.clear();
+                }
+                
+
 
                 textCommand.Text = "";
                 Refresh();

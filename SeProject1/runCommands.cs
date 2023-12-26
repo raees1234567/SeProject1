@@ -121,6 +121,17 @@ namespace SeProject1
             posY = OriginalPosY;
 
         }
+
+        public void clear()
+        {
+            g.Clear(Color.FromName("white"));
+        }
+
+        public void move(int x, int y)
+        {
+            posX = x;
+            posY = y;
+        }
     }
    
     

@@ -16,16 +16,17 @@ namespace SeProject1Test
             //Arrange
             
             textparser parser = new textparser();
+            string textfile = "C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\TestFile1.txt";
+            parser.Savetolist(File.ReadAllLines(textfile));
            
-            parser.Savetolist(File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"));
-           
-            List<string> individual = new List<string>();
-            foreach(string b in File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt")) 
-            {
+            List<string> individual = new List<string>() { "drawto", "0", "100", "triangle", "0", "100"};
+
+            //foreach(string b in File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\TestFile1.txt")) 
+            //{
                
-                individual.Add(b);
+            //    individual.Add(b);
                 
-            }
+            //}
 
             //foreach (string individual in parser.commandsFile)
             Assert.AreEqual(parser.command, individual);
@@ -36,6 +37,7 @@ namespace SeProject1Test
 
         public void Testing()
         {
+            Form1 form = new Form1();
             
         }
     }
