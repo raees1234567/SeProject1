@@ -1,5 +1,10 @@
 global using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SeProject1;
+using System.IO;
+using System.Windows;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 
 
 namespace SeProject1Test
@@ -15,9 +20,10 @@ namespace SeProject1Test
 
             //Arrange
             
-            textparser parser = new textparser();
-            string textfile = "C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\TestFile1.txt";
-            parser.Savetolist(File.ReadAllLines(textfile));
+            textparser p = new textparser();
+            var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var path = System.IO.Path.Combine(directory, "TestFile1");
+            p.Savetolist(File.ReadAllLines(path));
            
             List<string> individual = new List<string>() { "drawto", "0", "100", "triangle", "0", "100"};
 
@@ -29,16 +35,20 @@ namespace SeProject1Test
             //}
 
             //foreach (string individual in parser.commandsFile)
-            Assert.AreEqual(parser.command, individual);
+            CollectionAssert.AreEquivalent(p.command, individual);
             
             
             
         }
 
-        public void Testing()
+        public void WriteToFileTest()
         {
-            Form1 form = new Form1();
             
+            Form1 f = new Form1();
+            string input = "drawto 0 400";
+            string fileText = "drawto 0 400";
+            f.WriteToFile(input);
+            Assert.AreEqual(input, );
         }
     }
 }

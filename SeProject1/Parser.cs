@@ -30,7 +30,7 @@ namespace SeProject1
     {
         
         public List<string> command = new List<string>();
-        public string[] commandsFile;
+        //public string[] commandsFile;
   
         
         /// <summary>
