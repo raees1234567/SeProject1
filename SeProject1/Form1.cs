@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
 using System.Collections;
 using System.Windows.Documents;
+using System.Data.Common;
 
 namespace SeProject1
 {
@@ -40,6 +41,8 @@ namespace SeProject1
         public List<string> finalCommands = new List<string>();// Will hold a list of only the correct commands and coordinates that will be executed
         public Dictionary<string, string> variable = new Dictionary<string, string>();
         string result;
+        public List<KeyValuePair<string, string>> operators = new List<KeyValuePair<string, string>>();
+        public List<string> drawCommands = new List<string>();
 
         runCommands drawing;  //Creates an object of the runCommands class
 
@@ -278,6 +281,29 @@ namespace SeProject1
                     }
                     
                 }
+                else if (finalCommands[i] == "startloop")
+                {
+                    int index = int.Parse(finalCommands[i + 3]);
+                    string operation = finalCommands[i + 5];
+                    int conditionOperator = int.Parse(finalCommands[i + 6]);
+                    string changeValue = finalCommands[i + 8]; // operator for increment or decrement
+                    int value = int.Parse(finalCommands[i + 9]); // Value which will be incremented or decremented by
+                    int indexStartPos = finalCommands.IndexOf("{");
+                    int indexEndPos = finalCommands.IndexOf("}");
+                    operators.Insert(0, new KeyValuePair<string, string>("less_than", "<"));
+                    operators.Insert(1, new KeyValuePair<string, string>("greater_than", ">"));
+                    operators.Insert(2, new KeyValuePair<string, string>("less_than_equal_to", "<="));
+                    operators.Insert(3, new KeyValuePair<string, string>("greater_than_equal_to", ">="));
+                    operators.Insert(4, new KeyValuePair<string, string>("plus", "+"));
+                    operators.Insert(5, new KeyValuePair<string, string>("minus", "-"));
+                    operators.Insert(6, new KeyValuePair<string, string>("divide", "/"));
+                    operators.Insert(7, new KeyValuePair<string, string>("multiply", "*"));
+                    loopThroughCommands(index, operation, conditionOperator, changeValue, value, indexStartPos, indexEndPos);
+                    
+                    
+
+
+                }
                 else if (finalCommands[i] == "clear")
                 {
                     drawing.clear();
@@ -290,6 +316,243 @@ namespace SeProject1
             Refresh();
             textBox1.Text = "";
             File.WriteAllText(textFile, String.Empty);
+        }
+
+        public void commandFilter(List<string> runList, int indexStartPos, int indexEndPos)
+        {
+            for(int i = 0;i < drawCommands.Count; i++)
+            {
+                string index1;
+                string index2;
+                int count = 0;
+                if (drawCommands[i] == "drawto")
+                {
+
+
+
+                    if (variable.ContainsKey(drawCommands[i + 1]) == true)
+                    {
+                        index1 = variable[drawCommands[i + 1]];
+                        if (variable.ContainsKey(drawCommands[i + 2]) == true)
+                        {
+                            index2 = variable[drawCommands[i + 2]];
+
+                            drawing.Draw(int.Parse(index1), int.Parse(index2));
+                        }
+                        else
+                        {
+                            drawing.Draw(int.Parse(index1), int.Parse(drawCommands[i + 2]));
+                        }
+
+                    }
+                    else
+                    {
+                        drawing.Draw(int.Parse(drawCommands[i + 1]), int.Parse(drawCommands[i + 2]));
+                    }
+
+
+
+                }
+                else if (drawCommands[i] == "moveto")
+                {
+
+
+                    if (variable.ContainsKey(drawCommands[i + 1]) == true)
+                    {
+                        index1 = variable[drawCommands[i + 1]];
+                        if (variable.ContainsKey(drawCommands[i + 2]) == true)
+                        {
+                            index2 = variable[drawCommands[i + 2]];
+
+                            drawing.move(int.Parse(index1), int.Parse(index2));
+                        }
+                        else
+                        {
+                            drawing.move(int.Parse(index1), int.Parse(drawCommands[i + 2]));
+                        }
+
+                    }
+                    else
+                    {
+                        drawing.move(int.Parse(drawCommands[i + 1]), int.Parse(drawCommands[i + 2]));
+                    }
+
+                }
+                else if (drawCommands[i] == "rectangle")
+                {
+
+
+                    if (variable.ContainsKey(drawCommands[i + 1]) == true)
+                    {
+                        index1 = variable[drawCommands[i + 1]];
+                        if (variable.ContainsKey(drawCommands[i + 2]) == true)
+                        {
+                            index2 = variable[drawCommands[i + 2]];
+
+                            drawing.rectangle(int.Parse(index1), int.Parse(index2));
+                        }
+                        else
+                        {
+                            drawing.rectangle(int.Parse(index1), int.Parse(drawCommands[i + 2]));
+                        }
+
+                    }
+                    else
+                    {
+                        drawing.rectangle(int.Parse(drawCommands[i + 1]), int.Parse(drawCommands[i + 2]));
+                    }
+
+                }
+                else if (drawCommands[i] == "circle")
+                {
+
+                    if (variable.ContainsKey(drawCommands[i + 1]) == true)
+                    {
+                        index1 = variable[drawCommands[i + 1]];
+                        if (variable.ContainsKey(drawCommands[i + 2]) == true)
+                        {
+                            index2 = variable[drawCommands[i + 2]];
+
+                            drawing.circle(int.Parse(index1), int.Parse(index2));
+                        }
+                        else
+                        {
+                            drawing.circle(int.Parse(index1), int.Parse(drawCommands[i + 2]));
+                        }
+
+                    }
+                    else
+                    {
+                        drawing.circle(int.Parse(drawCommands[i + 1]), int.Parse(drawCommands[i + 2]));
+                    }
+
+                }
+                else if (drawCommands[i] == "triangle")
+                {
+
+
+                    if (variable.ContainsKey(drawCommands[i + 1]) == true)
+                    {
+                        index1 = variable[drawCommands[i + 1]];
+                        if (variable.ContainsKey(drawCommands[i + 2]) == true)
+                        {
+                            index2 = variable[drawCommands[i + 2]];
+
+                            drawing.triangle(int.Parse(index1), int.Parse(index2));
+                        }
+                        else
+                        {
+                            drawing.triangle(int.Parse(index1), int.Parse(drawCommands[i + 2]));
+                        }
+
+                    }
+                    else
+                    {
+                        drawing.triangle(int.Parse(drawCommands[i + 1]), int.Parse(drawCommands[i + 2]));
+                    }
+
+                }
+                else if (drawCommands[i] == "pen")
+                {
+                    if (variable.ContainsKey(drawCommands[i + 1]) == true)
+                    {
+                        index1 = variable[drawCommands[i + 1]];
+                        drawing.setPenColour(Color.FromName(drawCommands[i + 1]));
+                    }
+                    else
+                    {
+                        drawing.setPenColour(Color.FromName(drawCommands[i + 1]));
+                    }
+
+                }
+                else if (finalCommands[i] == "fill")
+                {
+
+
+                    if (variable.ContainsKey(drawCommands[i + 1]) == true)
+                    {
+                        index1 = variable[drawCommands[i + 1]];
+                        if (variable.ContainsKey(drawCommands[i + 2]) == true)
+                        {
+                            index2 = variable[drawCommands[i + 2]];
+
+                            drawing.colorFill(index1, index2);
+                        }
+                        else
+                        {
+                            drawing.colorFill(index1, drawCommands[i + 2]);
+                        }
+
+                    }
+                    else
+                    {
+                        drawing.colorFill(drawCommands[i + 1], drawCommands[i + 2]);
+                    }
+
+                }
+                else if (drawCommands[i] == "startloop")
+                {
+                    //int index = int.Parse(drawCommands[i + 3]);
+                    //string operation = drawCommands[i + 5];
+                    //int conditionOperator = int.Parse(drawCommands[i + 6]);
+                    //string changeValue = drawCommands[i + 8]; // operator for increment or decrement
+                    //int value = int.Parse(drawCommands[i + 9]); // Value which will be incremented or decremented by
+
+                    operators.Insert(0, new KeyValuePair<string, string>("less_than", "<"));
+                    operators.Insert(1, new KeyValuePair<string, string>("greater_than", ">"));
+                    operators.Insert(2, new KeyValuePair<string, string>("less_than_equal_to", "<="));
+                    operators.Insert(3, new KeyValuePair<string, string>("greater_than_equal_to", ">="));
+                    operators.Insert(4, new KeyValuePair<string, string>("plus", "+"));
+                    operators.Insert(5, new KeyValuePair<string, string>("minus", "-"));
+                    operators.Insert(6, new KeyValuePair<string, string>("divide", "/"));
+                    operators.Insert(7, new KeyValuePair<string, string>("multiply", "*"));
+                    //loopThroughCommands(index, operation, conditionOperator, changeValue, value, indexStartPos, indexEndPos);
+
+
+
+
+                }
+                else if (drawCommands[i] == "clear")
+                {
+                    drawing.clear();
+                }
+            }
+
+            Refresh();
+            textBox1.Text = "";
+            File.WriteAllText(textFile, String.Empty);
+
+        }
+
+        public void loopThroughCommands(int index, string operation, int conditionOperator, string changeValue, int value, int indexStartPos, int indexEndPos)
+        {
+            string less = "<";
+            string plus = "+";
+            for (int i = indexStartPos; i < indexEndPos; i++)
+            {
+                drawCommands.Add(finalCommands[i]);
+            }
+            if(operation == "<" && changeValue == "+")
+            {
+                for (int start = index; start < conditionOperator; start = start + value)
+                {
+                    commandFilter(drawCommands, indexStartPos, indexEndPos);
+                }
+            }
+            //switch (operation, changeValue)
+            //{
+                
+            //    case operation == less && changeValue == plus:
+            //        for (int start = index; start < conditionOperator; start = start + value)
+            //        {
+            //            commandFilter(drawCommands, indexStartPos, indexEndPos);
+            //        }
+            //        break;
+            //    case "<" == :
+            //        break;
+            //}
+            
+
         }
         private void canvas_Click(object sender, EventArgs e)
         {
@@ -424,6 +687,19 @@ namespace SeProject1
                                 
                                 i += 1;
                                 break;
+
+                            case "startloop":
+                                Console.WriteLine("Command valid");
+                                finalCommands.Add(command[i]);
+                                finalCommands.Add(command[i + 1]);
+                                for (int b = 2; b <= command.IndexOf("}"); b++)
+                                {
+                                    finalCommands.Add(command[i + b]);
+                                }
+                                i += command.IndexOf("}") - 1;
+                                
+
+                                break;
                             case "clear":
                                 Console.WriteLine("Command Valid");
                                 finalCommands.Add(command[i]);
@@ -456,14 +732,15 @@ namespace SeProject1
 
 
 
-        //public enum variables 
+        //public enum Forloop
         //{
+        //    lessThan = '<',
+        //    greaterThan = '>',
+        //    lessEqual = <,
+
 
         //}
-        //public enum param
-        //{
-
-        //}
+        
 
 
 
