@@ -43,8 +43,10 @@ namespace SeProject1
         string result;
         public List<KeyValuePair<string, string>> operators = new List<KeyValuePair<string, string>>();
         public List<string> drawCommands = new List<string>();
-
+        public Dictionary<string, List<string>> methodCommands = new Dictionary<string, List<string>>();
         runCommands drawing;  //Creates an object of the runCommands class
+        public int[][] array1 = new int[5][];
+        
 
         /// <summary>
         /// data is entered into runcommands
@@ -54,7 +56,7 @@ namespace SeProject1
         {
             InitializeComponent();
 
-
+            
             drawing = new runCommands(Graphics.FromImage(myBitmap));// saves Graphics.FromImage(myBitmap) into Graphics g. This is so Graphics will be updated with everything that is drawn onto myBitmap
 
         }
@@ -82,12 +84,13 @@ namespace SeProject1
 
 
             WriteToFile(textBox1.Text);// save the data to a text file
-            textparser txt = new textparser();//create object of textparser class which is inside Parser.cs
 
+            textparser txt = new textparser();// create object of textparser class which is inside Parser.cs
             txt.Savetolist(File.ReadAllLines("C:\\Users\\raees\\source\\repos\\SeProject1\\SeProject1\\commands.txt"));//save the commands from the file into a list called command
+
             ParseProgram(txt.command);// Look through the saved commands and enter only the needed commands into a second list called finalCommands
 
-            run();//loop through finalCommands and call the methods to run only the needed commands
+            run();// loop through finalCommands and call the methods to run only the needed commands
 
 
 
@@ -119,7 +122,6 @@ namespace SeProject1
                 if (finalCommands[i] == "drawto")
                 {
 
-                    
 
                     if (variable.ContainsKey(finalCommands[i + 1]) == true)
                     {
@@ -538,6 +540,21 @@ namespace SeProject1
                 {
                     commandFilter(drawCommands, indexStartPos, indexEndPos);
                 }
+
+            }
+            else if(operation == ">" && changeValue == "-")
+            {
+                for (int start = index; start > conditionOperator; start = start - value)
+                {
+                    commandFilter(drawCommands, indexStartPos, indexEndPos);
+                }
+            }
+            else if(operation == "<=" && changeValue == "*")
+            {
+                for (int start = index; start <= conditionOperator; start = start * value)
+                {
+                    commandFilter(drawCommands, indexStartPos, indexEndPos);
+                }
             }
             //switch (operation, changeValue)
             //{
@@ -700,6 +717,16 @@ namespace SeProject1
                                 
 
                                 break;
+                            case "method":
+                                methodCommands.Add(command[i], new List<string> { command[i + 1]});
+                                if (command[i + 2] == "(")
+                                {
+                                    for(int c = 0; i < command.IndexOf(")");c ++)
+                                    { 
+                                        methodCommands.Add(command[i], new List<string> { command[i + c] });
+                                    }
+                                }
+                                break;
                             case "clear":
                                 Console.WriteLine("Command Valid");
                                 finalCommands.Add(command[i]);
@@ -722,6 +749,8 @@ namespace SeProject1
 
                     break;
                 }
+                
+
 
             }
 

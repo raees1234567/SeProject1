@@ -50,7 +50,7 @@ namespace SeProject1
                 foreach (string individual in element.Split(' '))
                 {
                     command.Add(individual);
-                    //Console.WriteLine(individual);
+                    
                 }
                 
             }

@@ -12,7 +12,7 @@ namespace SeProject1
 {
     
     
-    internal class runCommands
+    class runCommands
     {
         Graphics g;
         Pen p;
