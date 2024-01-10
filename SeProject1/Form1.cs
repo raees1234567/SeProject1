@@ -95,7 +95,10 @@ namespace SeProject1
 
 
         }
-
+        /// <summary>
+        /// Stores the commands from the multi-line in the text file called commands.txt
+        /// </summary>
+        /// <param name="textForFile"></param>
         public void WriteToFile(string textForFile)
         {
 
@@ -319,7 +322,14 @@ namespace SeProject1
             textBox1.Text = "";
             File.WriteAllText(textFile, String.Empty);
         }
-
+        /// <summary>
+        /// This method commandFilter used exclusively for the method that runs the commands inside the loop.
+        /// This loop is created by the user. A seperate method is needed because a different
+        /// list is only for the commands inside of the loop.
+        /// </summary>
+        /// <param name="runList"></param>
+        /// <param name="indexStartPos"></param>
+        /// <param name="indexEndPos"></param>
         public void commandFilter(List<string> runList, int indexStartPos, int indexEndPos)
         {
             for(int i = 0;i < drawCommands.Count; i++)
@@ -526,6 +536,17 @@ namespace SeProject1
 
         }
 
+
+        /// <summary>
+        /// Creates and runs the users loop
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="operation"></param>
+        /// <param name="conditionOperator"></param>
+        /// <param name="changeValue"></param>
+        /// <param name="value"></param>
+        /// <param name="indexStartPos"></param>
+        /// <param name="indexEndPos"></param>
         public void loopThroughCommands(int index, string operation, int conditionOperator, string changeValue, int value, int indexStartPos, int indexEndPos)
         {
             string less = "<";

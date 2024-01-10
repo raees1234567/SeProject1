@@ -11,7 +11,9 @@ using System.Windows.Forms;
 namespace SeProject1
 {
     
-    
+    /// <summary>
+    /// runCommands class stores the functionality for the commands
+    /// </summary>
     class runCommands
     {
         Graphics g;
@@ -32,6 +34,11 @@ namespace SeProject1
             p = new Pen(Color.Black, 5);
             
         }
+        /// <summary>
+        /// Fills the shapes with colours
+        /// </summary>
+        /// <param name="brushColor"> brushColor command saves what colour the user wants to enter</param>
+        /// <param name="onOff">saves whether colorFill is on or off. If it is in it will turn off and vice versa</param>
         public void colorFill(string brushColor, string onOff)
         {
             brushFill = new SolidBrush(Color.FromName(brushColor));
@@ -46,7 +53,10 @@ namespace SeProject1
                 fill = false;
             }
         }
-
+        /// <summary>
+        /// allows the user to set what colour the pen will be
+        /// </summary>
+        /// <param name="color">Stores what colour the user wants the pen to be</param>
         public void setPenColour(Color color)
         {
             p = new Pen(color, 5);
@@ -67,7 +77,12 @@ namespace SeProject1
             posY = toY;
             
         }
-
+        /// <summary>
+        /// functionality for drawing a rectangle. Takes either the fill colour or line colour and draws the 
+        /// rectangle using the start coordinates and the user specified coordinates which specifies the length and width of the rectangle
+        /// </summary>
+        /// <param name="toX">how far along the x-axis</param>
+        /// <param name="toY">how far along the y-axis</param>
         public void rectangle(int toX, int toY)
         {
             
@@ -86,7 +101,13 @@ namespace SeProject1
             }
             
         }
-
+        /// <summary>
+        /// draws an ellipse based on whether the user wants the shape to be filled or not.
+        /// X and Y are needed because the Ellipse is drawn based of off a rectangle. Therefore X
+        /// and Y are needed so the user can specify the size of the Ellipse
+        /// </summary>
+        /// <param name="toX"></param>
+        /// <param name="toY"></param>
         public void circle(int toX, int toY)
         {
             if(fill == true)
@@ -105,7 +126,16 @@ namespace SeProject1
             }
             
         }
-
+        /// <summary>
+        /// Custom drawn triangle drawn by using straight lines. Working from the starting position of posX and posY.
+        /// OriginalPosX and OriginalPosY store the coordinates of where the shape will start from.
+        /// The hypotenuse is drawn by adding the width to posX.
+        /// To get the next point the height is added to the Y-axis and the X-axis is halved
+        /// Then next line is a return to posX and posY.
+        /// 
+        /// </summary>
+        /// <param name="width">how long will the X-axis be</param>
+        /// <param name="height">how long will the Y-axis be</param>
         public void triangle(int width, int height)
         {
             int OriginalPosX = posX;
@@ -121,12 +151,18 @@ namespace SeProject1
             posY = OriginalPosY;
 
         }
-
+        /// <summary>
+        /// delete all the drawing from the canvas
+        /// </summary>
         public void clear()
         {
             g.Clear(Color.FromName("white"));
         }
-
+        /// <summary>
+        /// Move where the shapes will start drawing from
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void move(int x, int y)
         {
             posX = x;

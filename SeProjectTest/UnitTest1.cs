@@ -69,6 +69,10 @@ namespace SeProjectTest
             Assert.AreEqual(commands, f.finalCommands);
         }
 
+        public void colorFillTest()
+        {
+
+        }
 
         
     }
